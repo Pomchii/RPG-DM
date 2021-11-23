@@ -43,7 +43,7 @@ var ListUserController = /** @class */ (function () {
     }
     ListUserController.prototype.execute = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var userId, user, error_1;
+            var userId, user, dataBuilded, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -54,7 +54,11 @@ var ListUserController = /** @class */ (function () {
                         return [4 /*yield*/, this.listUser.execute(userId)];
                     case 2:
                         user = _a.sent();
-                        return [2 /*return*/, res.status(200).json(user)];
+                        dataBuilded = {
+                            username: user.username,
+                            email: user.email
+                        };
+                        return [2 /*return*/, res.status(200).json(dataBuilded)];
                     case 3:
                         error_1 = _a.sent();
                         return [2 /*return*/, res.status(404).json({

@@ -12,7 +12,12 @@ export class ListUserController {
     try {
       const user = await this.listUser.execute(userId);
 
-      return res.status(200).json(user);
+      const dataBuilded: {} = {
+        username: user.username,
+        email: user.email
+      }
+
+      return res.status(200).json(dataBuilded);
     } catch (error: any) {
       return res.status(404).json({
         message: error.message || error || 'Unexpected error.'

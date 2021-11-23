@@ -12,11 +12,6 @@ export class ListUser{
       throw new Error("User not found!");
     }
 
-    const dataBuilded: {} ={
-      username: findUserByUsername.username,
-      email: findUserByUsername.email
-    }
-
-    return dataBuilded;
+    return findUserByUsername;
   }
 }

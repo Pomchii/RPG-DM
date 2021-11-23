@@ -43,7 +43,7 @@ var ListUser = /** @class */ (function () {
     }
     ListUser.prototype.execute = function (username) {
         return __awaiter(this, void 0, void 0, function () {
-            var findUserByUsername, dataBuilded;
+            var findUserByUsername;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.userRepository.findByUsername(username)];
@@ -52,11 +52,7 @@ var ListUser = /** @class */ (function () {
                         if (!findUserByUsername) {
                             throw new Error("User not found!");
                         }
-                        dataBuilded = {
-                            username: findUserByUsername.username,
-                            email: findUserByUsername.email
-                        };
-                        return [2 /*return*/, dataBuilded];
+                        return [2 /*return*/, findUserByUsername];
                 }
             });
         });
