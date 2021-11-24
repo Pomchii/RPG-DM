@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createUserController } from "./controllers/CreateUser";
+import { findDndClassController } from "./controllers/FindDndClass";
 import { listDndClassesController } from "./controllers/ListDnDClasses";
 import { listUserController } from "./controllers/ListUser";
 
@@ -20,7 +21,7 @@ router.get('/classes', (request, response) => {
 });
 
 router.get('/classes/:className', (request, response) => {
-
+  return findDndClassController.execute(request, response);
 });
 
 
