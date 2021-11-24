@@ -35,61 +35,54 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DnDProvider = void 0;
-var axios_1 = __importDefault(require("axios"));
-var DnDProvider = /** @class */ (function () {
-    function DnDProvider() {
-        this.fiveEditionApi = axios_1.default.create({
-            baseURL: 'https://www.dnd5eapi.co/api',
-        });
+exports.FindDndClassController = void 0;
+var FindDndClassController = /** @class */ (function () {
+    function FindDndClassController(findDndClass) {
+        this.findDndClass = findDndClass;
     }
-    DnDProvider.prototype.listAllClasses = function (route) {
+    FindDndClassController.prototype.execute = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var classes;
+            var playableClass, proficiencyChoices, classReturner, i, position, fromProficiencies, proficiencies, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data.results];
-                    case 2:
-                        classes = _a.sent();
-                        return [2 /*return*/, [classes]];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findPlayableClass = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var playableClass;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.findDndClass.execute("/classes/" + req.params.className)];
+                    case 1:
                         playableClass = _a.sent();
-                        return [2 /*return*/, playableClass];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiency;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
+                        proficiencyChoices = playableClass.proficiency_choices;
+                        classReturner = {
+                            name: playableClass.name,
+                            hitDie: playableClass.hit_die,
+                            proficiencyOptions: [{}],
+                            proficiencies: []
+                        };
+                        classReturner.proficiencyOptions.pop();
+                        for (i = 0; i < proficiencyChoices.length; i++) {
+                            position = proficiencyChoices[i];
+                            fromProficiencies = position.from;
+                            proficiencies = fromProficiencies.map(function (proficiency) {
+                                var skillName = proficiency.index.split('-');
+                                return skillName[1];
+                            });
+                            classReturner.proficiencyOptions.push({
+                                choose: position.choose,
+                                type: position.type,
+                                from: proficiencies
+                            });
+                        }
+                        // const proficiency = await this.findProficiencies.execute(`/`)
+                        return [2 /*return*/, res.status(200).json(classReturner)];
                     case 2:
-                        proficiency = _a.sent();
-                        return [2 /*return*/, proficiency];
+                        error_1 = _a.sent();
+                        return [2 /*return*/, res.status(500).json({ message: error_1.message || error_1 || 'Unexpected error' })];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    return DnDProvider;
+    return FindDndClassController;
 }());
-exports.DnDProvider = DnDProvider;
-//# sourceMappingURL=DnDProvider.js.map
+exports.FindDndClassController = FindDndClassController;
+//# sourceMappingURL=FindDndClassController.js.map

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 var express_1 = require("express");
 var CreateUser_1 = require("./controllers/CreateUser");
+var FindDndClass_1 = require("./controllers/FindDndClass");
 var ListDnDClasses_1 = require("./controllers/ListDnDClasses");
 var ListUser_1 = require("./controllers/ListUser");
 var router = express_1.Router();
@@ -19,5 +20,6 @@ router.get('/classes', function (request, response) {
     return ListDnDClasses_1.listDndClassesController.execute(request, response);
 });
 router.get('/classes/:className', function (request, response) {
+    return FindDndClass_1.findDndClassController.execute(request, response);
 });
 //# sourceMappingURL=routes.js.map
