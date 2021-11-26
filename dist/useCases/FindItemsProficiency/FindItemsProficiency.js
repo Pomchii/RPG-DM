@@ -35,75 +35,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DnDProvider = void 0;
-var axios_1 = __importDefault(require("axios"));
-var DnDProvider = /** @class */ (function () {
-    function DnDProvider() {
-        this.fiveEditionApi = axios_1.default.create({
-            baseURL: 'https://www.dnd5eapi.co/api',
-        });
+exports.FindItemsProficiency = void 0;
+var FindItemsProficiency = /** @class */ (function () {
+    function FindItemsProficiency(dndProvider) {
+        this.dndProvider = dndProvider;
     }
-    DnDProvider.prototype.listAllClasses = function (route) {
+    FindItemsProficiency.prototype.execute = function (route) {
         return __awaiter(this, void 0, void 0, function () {
-            var classes;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data.results];
-                    case 2:
-                        classes = _a.sent();
-                        return [2 /*return*/, [classes]];
+                    case 0: return [4 /*yield*/, this.dndProvider.findItemsProficiencies(route)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    DnDProvider.prototype.findPlayableClass = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var playableClass;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        playableClass = _a.sent();
-                        return [2 /*return*/, playableClass];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiencies;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        proficiencies = _a.sent();
-                        return [2 /*return*/, proficiencies];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findItemsProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiency;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        proficiency = _a.sent();
-                        return [2 /*return*/, proficiency];
-                }
-            });
-        });
-    };
-    return DnDProvider;
+    return FindItemsProficiency;
 }());
-exports.DnDProvider = DnDProvider;
-//# sourceMappingURL=DnDProvider.js.map
+exports.FindItemsProficiency = FindItemsProficiency;
+//# sourceMappingURL=FindItemsProficiency.js.map

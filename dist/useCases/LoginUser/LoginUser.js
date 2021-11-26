@@ -35,75 +35,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DnDProvider = void 0;
-var axios_1 = __importDefault(require("axios"));
-var DnDProvider = /** @class */ (function () {
-    function DnDProvider() {
-        this.fiveEditionApi = axios_1.default.create({
-            baseURL: 'https://www.dnd5eapi.co/api',
-        });
+exports.LoginUser = void 0;
+var LoginUser = /** @class */ (function () {
+    function LoginUser(userRepository, jsonWebtoken, hashData) {
+        this.userRepository = userRepository;
+        this.jsonWebtoken = jsonWebtoken;
+        this.hashData = hashData;
     }
-    DnDProvider.prototype.listAllClasses = function (route) {
+    LoginUser.prototype.execute = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var classes;
+            var user, comparePassword;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data.results];
+                    case 0: return [4 /*yield*/, this.userRepository.findByUsername(data.username)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            throw new Error("Username is incorrect or does not exist.");
+                        }
+                        return [4 /*yield*/, this.hashData.compareHashedUserData(data.password, user.password)];
                     case 2:
-                        classes = _a.sent();
-                        return [2 /*return*/, [classes]];
+                        comparePassword = _a.sent();
+                        if (!comparePassword) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.jsonWebtoken.signToken(user.id)];
+                    case 3: return [2 /*return*/, _a.sent()];
+                    case 4: throw new Error("Incorrect Password.");
                 }
             });
         });
     };
-    DnDProvider.prototype.findPlayableClass = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var playableClass;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        playableClass = _a.sent();
-                        return [2 /*return*/, playableClass];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiencies;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        proficiencies = _a.sent();
-                        return [2 /*return*/, proficiencies];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findItemsProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiency;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        proficiency = _a.sent();
-                        return [2 /*return*/, proficiency];
-                }
-            });
-        });
-    };
-    return DnDProvider;
+    return LoginUser;
 }());
-exports.DnDProvider = DnDProvider;
-//# sourceMappingURL=DnDProvider.js.map
+exports.LoginUser = LoginUser;
+//# sourceMappingURL=LoginUser.js.map

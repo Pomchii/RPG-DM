@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 var express_1 = require("express");
-var CreateUser_1 = require("./controllers/CreateUser");
-var FindDndClass_1 = require("./controllers/FindDndClass");
-var ListDnDClasses_1 = require("./controllers/ListDnDClasses");
-var ListUser_1 = require("./controllers/ListUser");
-var LoginUser_1 = require("./controllers/LoginUser");
-var UpdateUser_1 = require("./controllers/UpdateUser");
+var CreateUser_1 = require("./useCases/CreateUser");
+var FindDndClass_1 = require("./useCases/FindDndClass");
+var ListDnDClasses_1 = require("./useCases/ListDnDClasses");
+var ListUser_1 = require("./useCases/ListUser");
+var LoginUser_1 = require("./useCases/LoginUser");
+var UpdateUser_1 = require("./useCases/UpdateUser");
 var checkAuth_1 = require("./middlewares/checkAuth");
 var router = express_1.Router();
 exports.router = router;

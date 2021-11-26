@@ -1,7 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { response } from "express";
-import { IFindDndClassDTO } from "../../controllers/FindDndClass/IFindDndClassDTO";
-import { IListDnDClassesDTO } from "../../controllers/ListDnDClasses/ListDnDClassesDTO";
+import { IFindDndClassDTO } from "../../useCases/FindDndClass/IFindDndClassDTO";
+import { IItemsProficiency } from "../../useCases/FindItemsProficiency/FindItemsProficiencyDTO";
+import { IListDnDClassesDTO } from "../../useCases/ListDnDClasses/ListDnDClassesDTO";
 import { IDndProvider } from "../IDnDProvider";
 
 export class DnDProvider implements IDndProvider{
@@ -26,6 +27,12 @@ export class DnDProvider implements IDndProvider{
   }
 
   async findProficiencies(route: string) {
+    const proficiencies = await (await this.fiveEditionApi.get(route)).data;
+
+    return proficiencies;
+  }
+
+  async findItemsProficiencies(route: string): Promise<IItemsProficiency> {
     const proficiency = await (await this.fiveEditionApi.get(route)).data;
 
     return proficiency;

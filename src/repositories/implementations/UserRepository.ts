@@ -1,28 +1,25 @@
 import { plainToClass } from "class-transformer";
 import { getRepository, Repository, UpdateResult } from "typeorm";
-import { ICreateUserDTO } from "../../controllers/CreateUser/CreateUserDTO";
+import { ICreateUserDTO } from "../../useCases/CreateUser/CreateUserDTO";
 import { User } from "../../entities/User";
 import { IUserRepository } from "../IUserRepository";
-import bcrypt from 'bcrypt';
-import { IUpdateUserDTO } from "../../controllers/UpdateUser/UpdateUserDTO";
+import { IUpdateUserDTO } from "../../useCases/UpdateUser/UpdateUserDTO";
 
 export class UserRepository implements IUserRepository {
-  private userRepository: Repository<User>
-
-  constructor() {
-    this.userRepository = getRepository(User);
-  }
-
   async findByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { username } });
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({ where: { username } });
 
     return user!;
   }
 
   async findById(userId: number): Promise<User> {
-    const user = await this.userRepository.findByIds([userId]);
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
+      where: { id: userId }
+    });
 
-    return user[0];
+    return user!;
   }
 
   async saveUser(user: ICreateUserDTO): Promise<void> {
@@ -35,20 +32,9 @@ export class UserRepository implements IUserRepository {
     }));
   }
 
-  async hashUserData(userData: string): Promise<string> {
-    const hashedPassword = bcrypt.hash(userData, 10);
-
-    return hashedPassword;
-  }
-
-  async compareHashedUserData(incomingData: string, userData: string): Promise<boolean> {
-    const comparedDataValues = await bcrypt.compare(incomingData, userData);
-
-    return comparedDataValues;
-  }
-
   async updateUser(user: IUpdateUserDTO, userId: number): Promise<UpdateResult> {
-    const updateUser = await this.userRepository.update({ id: userId }, user);
+    const userRepository = getRepository(User);
+    const updateUser = userRepository.update({ id: userId }, user);
 
     return updateUser;
   }

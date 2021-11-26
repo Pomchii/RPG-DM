@@ -35,25 +35,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 var class_transformer_1 = require("class-transformer");
 var typeorm_1 = require("typeorm");
 var User_1 = require("../../entities/User");
-var bcrypt_1 = __importDefault(require("bcrypt"));
 var UserRepository = /** @class */ (function () {
     function UserRepository() {
-        this.userRepository = typeorm_1.getRepository(User_1.User);
     }
     UserRepository.prototype.findByUsername = function (username) {
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var userRepository, user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findOne({ where: { username: username } })];
+                    case 0:
+                        userRepository = typeorm_1.getRepository(User_1.User);
+                        return [4 /*yield*/, userRepository.findOne({ where: { username: username } })];
                     case 1:
                         user = _a.sent();
                         return [2 /*return*/, user];
@@ -63,13 +60,17 @@ var UserRepository = /** @class */ (function () {
     };
     UserRepository.prototype.findById = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var userRepository, user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findByIds([userId])];
+                    case 0:
+                        userRepository = typeorm_1.getRepository(User_1.User);
+                        return [4 /*yield*/, userRepository.findOne({
+                                where: { id: userId }
+                            })];
                     case 1:
                         user = _a.sent();
-                        return [2 /*return*/, user[0]];
+                        return [2 /*return*/, user];
                 }
             });
         });
@@ -93,38 +94,13 @@ var UserRepository = /** @class */ (function () {
             });
         });
     };
-    UserRepository.prototype.hashUserData = function (userData) {
-        return __awaiter(this, void 0, void 0, function () {
-            var hashedPassword;
-            return __generator(this, function (_a) {
-                hashedPassword = bcrypt_1.default.hash(userData, 10);
-                return [2 /*return*/, hashedPassword];
-            });
-        });
-    };
-    UserRepository.prototype.compareHashedUserData = function (incomingData, userData) {
-        return __awaiter(this, void 0, void 0, function () {
-            var comparedDataValues;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, bcrypt_1.default.compare(incomingData, userData)];
-                    case 1:
-                        comparedDataValues = _a.sent();
-                        return [2 /*return*/, comparedDataValues];
-                }
-            });
-        });
-    };
     UserRepository.prototype.updateUser = function (user, userId) {
         return __awaiter(this, void 0, void 0, function () {
-            var updateUser;
+            var userRepository, updateUser;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.update({ id: userId }, user)];
-                    case 1:
-                        updateUser = _a.sent();
-                        return [2 /*return*/, updateUser];
-                }
+                userRepository = typeorm_1.getRepository(User_1.User);
+                updateUser = userRepository.update({ id: userId }, user);
+                return [2 /*return*/, updateUser];
             });
         });
     };

@@ -35,75 +35,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DnDProvider = void 0;
-var axios_1 = __importDefault(require("axios"));
-var DnDProvider = /** @class */ (function () {
-    function DnDProvider() {
-        this.fiveEditionApi = axios_1.default.create({
-            baseURL: 'https://www.dnd5eapi.co/api',
-        });
+exports.CreateUser = void 0;
+var User_1 = require("../../entities/User");
+var class_transformer_1 = require("class-transformer");
+var CreateUser = /** @class */ (function () {
+    function CreateUser(userRepository, hashData) {
+        this.userRepository = userRepository;
+        this.hashData = hashData;
     }
-    DnDProvider.prototype.listAllClasses = function (route) {
+    CreateUser.prototype.execute = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var classes;
+            var usernameAlreadyExists, hashedPassword, hashedEmail, user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data.results];
+                    case 0: return [4 /*yield*/, this.userRepository.findByUsername(data.username)];
+                    case 1:
+                        usernameAlreadyExists = _a.sent();
+                        return [4 /*yield*/, this.hashData.hashUserData(data.password)];
                     case 2:
-                        classes = _a.sent();
-                        return [2 /*return*/, [classes]];
+                        hashedPassword = _a.sent();
+                        return [4 /*yield*/, this.hashData.hashUserData(data.email)];
+                    case 3:
+                        hashedEmail = _a.sent();
+                        if (!!usernameAlreadyExists) return [3 /*break*/, 5];
+                        user = class_transformer_1.plainToClass(User_1.User, {
+                            username: data.username,
+                            email: hashedEmail,
+                            password: hashedPassword
+                        });
+                        return [4 /*yield*/, this.userRepository.saveUser(user)];
+                    case 4:
+                        _a.sent();
+                        return [3 /*break*/, 6];
+                    case 5: throw new Error("username already exists.");
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     };
-    DnDProvider.prototype.findPlayableClass = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var playableClass;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        playableClass = _a.sent();
-                        return [2 /*return*/, playableClass];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiencies;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        proficiencies = _a.sent();
-                        return [2 /*return*/, proficiencies];
-                }
-            });
-        });
-    };
-    DnDProvider.prototype.findItemsProficiencies = function (route) {
-        return __awaiter(this, void 0, void 0, function () {
-            var proficiency;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.fiveEditionApi.get(route)];
-                    case 1: return [4 /*yield*/, (_a.sent()).data];
-                    case 2:
-                        proficiency = _a.sent();
-                        return [2 /*return*/, proficiency];
-                }
-            });
-        });
-    };
-    return DnDProvider;
+    return CreateUser;
 }());
-exports.DnDProvider = DnDProvider;
-//# sourceMappingURL=DnDProvider.js.map
+exports.CreateUser = CreateUser;
+//# sourceMappingURL=CreateUser.js.map

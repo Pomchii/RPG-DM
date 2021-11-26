@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { createUserController } from "./controllers/CreateUser";
-import { findDndClassController } from "./controllers/FindDndClass";
-import { listDndClassesController } from "./controllers/ListDnDClasses";
-import { listUserController } from "./controllers/ListUser";
-import { loginUserController } from "./controllers/LoginUser";
-import { updateUserController } from "./controllers/UpdateUser";
+import { createUserController } from "./useCases/CreateUser";
+import { findDndClassController } from "./useCases/FindDndClass";
+import { listDndClassesController } from "./useCases/ListDnDClasses";
+import { listUserController } from "./useCases/ListUser";
+import { loginUserController } from "./useCases/LoginUser";
+import { updateUserController } from "./useCases/UpdateUser";
 import { checkAuth } from "./middlewares/checkAuth";
 
 const router = Router();
