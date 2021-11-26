@@ -46,18 +46,30 @@ var User_1 = require("../../entities/User");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var UserRepository = /** @class */ (function () {
     function UserRepository() {
+        this.userRepository = typeorm_1.getRepository(User_1.User);
     }
     UserRepository.prototype.findByUsername = function (username) {
         return __awaiter(this, void 0, void 0, function () {
-            var userRepository, user;
+            var user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        userRepository = typeorm_1.getRepository(User_1.User);
-                        return [4 /*yield*/, userRepository.findOne({ where: { username: username } })];
+                    case 0: return [4 /*yield*/, this.userRepository.findOne({ where: { username: username } })];
                     case 1:
                         user = _a.sent();
                         return [2 /*return*/, user];
+                }
+            });
+        });
+    };
+    UserRepository.prototype.findById = function (userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.findByIds([userId])];
+                    case 1:
+                        user = _a.sent();
+                        return [2 /*return*/, user[0]];
                 }
             });
         });
@@ -99,6 +111,19 @@ var UserRepository = /** @class */ (function () {
                     case 1:
                         comparedDataValues = _a.sent();
                         return [2 /*return*/, comparedDataValues];
+                }
+            });
+        });
+    };
+    UserRepository.prototype.updateUser = function (user, userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var updateUser;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.update({ id: userId }, user)];
+                    case 1:
+                        updateUser = _a.sent();
+                        return [2 /*return*/, updateUser];
                 }
             });
         });

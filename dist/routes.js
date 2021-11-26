@@ -7,6 +7,7 @@ var FindDndClass_1 = require("./controllers/FindDndClass");
 var ListDnDClasses_1 = require("./controllers/ListDnDClasses");
 var ListUser_1 = require("./controllers/ListUser");
 var LoginUser_1 = require("./controllers/LoginUser");
+var UpdateUser_1 = require("./controllers/UpdateUser");
 var checkAuth_1 = require("./middlewares/checkAuth");
 var router = express_1.Router();
 exports.router = router;
@@ -17,11 +18,14 @@ router.post('/users/register', function (request, response) {
 router.post('/login', function (request, response) {
     return LoginUser_1.loginUserController.execute(request, response);
 });
+router.put('/users/:userId', checkAuth_1.checkAuth, function (request, response) {
+    return UpdateUser_1.updateUserController.execute(request, response);
+});
 router.get('/users/:userId', function (request, response) {
     return ListUser_1.listUserController.execute(request, response);
 });
 //classes-routes
-router.get('/classes', checkAuth_1.checkAuth, function (request, response) {
+router.get('/classes', function (request, response) {
     return ListDnDClasses_1.listDndClassesController.execute(request, response);
 });
 router.get('/classes/:className', function (request, response) {

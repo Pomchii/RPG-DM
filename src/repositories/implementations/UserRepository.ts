@@ -1,17 +1,28 @@
 import { plainToClass } from "class-transformer";
-import { getRepository } from "typeorm";
+import { getRepository, Repository, UpdateResult } from "typeorm";
 import { ICreateUserDTO } from "../../controllers/CreateUser/CreateUserDTO";
 import { User } from "../../entities/User";
 import { IUserRepository } from "../IUserRepository";
 import bcrypt from 'bcrypt';
+import { IUpdateUserDTO } from "../../controllers/UpdateUser/UpdateUserDTO";
 
 export class UserRepository implements IUserRepository {
-  async findByUsername(username: string): Promise<User> {
-    const userRepository = getRepository(User);
+  private userRepository: Repository<User>
 
-    const user = await userRepository.findOne({ where: { username } });
+  constructor() {
+    this.userRepository = getRepository(User);
+  }
+
+  async findByUsername(username: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { username } });
 
     return user!;
+  }
+
+  async findById(userId: number): Promise<User> {
+    const user = await this.userRepository.findByIds([userId]);
+
+    return user[0];
   }
 
   async saveUser(user: ICreateUserDTO): Promise<void> {
@@ -34,5 +45,11 @@ export class UserRepository implements IUserRepository {
     const comparedDataValues = await bcrypt.compare(incomingData, userData);
 
     return comparedDataValues;
+  }
+
+  async updateUser(user: IUpdateUserDTO, userId: number): Promise<UpdateResult> {
+    const updateUser = await this.userRepository.update({ id: userId }, user);
+
+    return updateUser;
   }
 }
