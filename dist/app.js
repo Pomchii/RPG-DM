@@ -7,6 +7,7 @@ exports.app = void 0;
 var express_1 = __importDefault(require("express"));
 var routes_1 = require("./routes");
 require("./database/postgres/postgresConnection");
+require("dotenv");
 var app = express_1.default();
 exports.app = app;
 app.use(express_1.default.json());

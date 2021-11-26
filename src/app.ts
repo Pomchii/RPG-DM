@@ -1,6 +1,7 @@
 import express from 'express';
 import { router } from './routes';
 import './database/postgres/postgresConnection';
+import "dotenv";
 
 const app = express();
 

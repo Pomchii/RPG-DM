@@ -36,44 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUser = void 0;
-var User_1 = require("../../entities/User");
-var class_transformer_1 = require("class-transformer");
-var CreateUser = /** @class */ (function () {
-    function CreateUser(userRepository) {
+exports.LoginUser = void 0;
+var LoginUser = /** @class */ (function () {
+    function LoginUser(userRepository, jsonWebtoken) {
         this.userRepository = userRepository;
+        this.jsonWebtoken = jsonWebtoken;
     }
-    CreateUser.prototype.execute = function (data) {
+    LoginUser.prototype.execute = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var usernameAlreadyExists, hashedPassword, hashedEmail, user;
+            var user, comparePassword;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.userRepository.findByUsername(data.username)];
                     case 1:
-                        usernameAlreadyExists = _a.sent();
-                        return [4 /*yield*/, this.userRepository.hashUserData(data.password)];
+                        user = _a.sent();
+                        if (!user) {
+                            throw new Error("Username is incorrect or does not exist.");
+                        }
+                        return [4 /*yield*/, this.userRepository.compareHashedUserData(data.password, user.password)];
                     case 2:
-                        hashedPassword = _a.sent();
-                        return [4 /*yield*/, this.userRepository.hashUserData(data.email)];
-                    case 3:
-                        hashedEmail = _a.sent();
-                        if (!!usernameAlreadyExists) return [3 /*break*/, 5];
-                        user = class_transformer_1.plainToClass(User_1.User, {
-                            username: data.username,
-                            email: hashedEmail,
-                            password: hashedPassword
-                        });
-                        return [4 /*yield*/, this.userRepository.saveUser(user)];
-                    case 4:
-                        _a.sent();
-                        return [3 /*break*/, 6];
-                    case 5: throw new Error("username already exists.");
-                    case 6: return [2 /*return*/];
+                        comparePassword = _a.sent();
+                        if (!comparePassword) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.jsonWebtoken.signToken(user.id)];
+                    case 3: return [2 /*return*/, _a.sent()];
+                    case 4: throw new Error("Incorrect Password.");
                 }
             });
         });
     };
-    return CreateUser;
+    return LoginUser;
 }());
-exports.CreateUser = CreateUser;
-//# sourceMappingURL=CreateUser.js.map
+exports.LoginUser = LoginUser;
+//# sourceMappingURL=LoginUser.js.map

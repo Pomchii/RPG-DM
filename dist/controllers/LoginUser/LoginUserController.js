@@ -36,44 +36,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUser = void 0;
-var User_1 = require("../../entities/User");
-var class_transformer_1 = require("class-transformer");
-var CreateUser = /** @class */ (function () {
-    function CreateUser(userRepository) {
-        this.userRepository = userRepository;
+exports.LoginUserController = void 0;
+var LoginUserController = /** @class */ (function () {
+    function LoginUserController(loginUser) {
+        this.loginUser = loginUser;
     }
-    CreateUser.prototype.execute = function (data) {
+    LoginUserController.prototype.execute = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var usernameAlreadyExists, hashedPassword, hashedEmail, user;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findByUsername(data.username)];
+            var _a, username, password, loggedUser, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        _a = req.body, username = _a.username, password = _a.password;
+                        return [4 /*yield*/, this.loginUser.execute({
+                                username: username,
+                                password: password
+                            })];
                     case 1:
-                        usernameAlreadyExists = _a.sent();
-                        return [4 /*yield*/, this.userRepository.hashUserData(data.password)];
+                        loggedUser = _b.sent();
+                        return [2 /*return*/, res.status(200).json({
+                                token: loggedUser
+                            })];
                     case 2:
-                        hashedPassword = _a.sent();
-                        return [4 /*yield*/, this.userRepository.hashUserData(data.email)];
-                    case 3:
-                        hashedEmail = _a.sent();
-                        if (!!usernameAlreadyExists) return [3 /*break*/, 5];
-                        user = class_transformer_1.plainToClass(User_1.User, {
-                            username: data.username,
-                            email: hashedEmail,
-                            password: hashedPassword
-                        });
-                        return [4 /*yield*/, this.userRepository.saveUser(user)];
-                    case 4:
-                        _a.sent();
-                        return [3 /*break*/, 6];
-                    case 5: throw new Error("username already exists.");
-                    case 6: return [2 /*return*/];
+                        error_1 = _b.sent();
+                        return [2 /*return*/, res.status(500).json({
+                                message: error_1.message || error_1 || "Unexpected error"
+                            })];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    return CreateUser;
+    return LoginUserController;
 }());
-exports.CreateUser = CreateUser;
-//# sourceMappingURL=CreateUser.js.map
+exports.LoginUserController = LoginUserController;
+//# sourceMappingURL=LoginUserController.js.map

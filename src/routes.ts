@@ -3,6 +3,8 @@ import { createUserController } from "./controllers/CreateUser";
 import { findDndClassController } from "./controllers/FindDndClass";
 import { listDndClassesController } from "./controllers/ListDnDClasses";
 import { listUserController } from "./controllers/ListUser";
+import { loginUserController } from "./controllers/LoginUser";
+import { checkAuth } from "./middlewares/checkAuth";
 
 const router = Router();
 
@@ -11,12 +13,16 @@ router.post('/users/register', (request, response) => {
   return createUserController.execute(request, response);
 });
 
+router.post('/login', (request, response) => {
+  return loginUserController.execute(request, response);
+});
+
 router.get('/users/:userId', (request, response) => {
   return listUserController.execute(request, response);
 });
 
 //classes-routes
-router.get('/classes', (request, response) => {
+router.get('/classes', checkAuth, (request, response) => {
   return listDndClassesController.execute(request, response);
 });
 
