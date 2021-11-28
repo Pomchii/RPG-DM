@@ -38,9 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FindDndClassController = void 0;
 var FindDndClassController = /** @class */ (function () {
-    function FindDndClassController(findDndClass, findProficiencies, findItemProficiencies) {
+    function FindDndClassController(findDndClass, findItemProficiencies) {
         this.findDndClass = findDndClass;
-        this.findProficiencies = findProficiencies;
         this.findItemProficiencies = findItemProficiencies;
     }
     FindDndClassController.prototype.execute = function (req, res) {
@@ -59,7 +58,7 @@ var FindDndClassController = /** @class */ (function () {
                             name: playableClass.name,
                             hitDie: playableClass.hit_die,
                             proficiencyOptions: [{}],
-                            proficiencies: [{}]
+                            proficiencies: [{}],
                         };
                         classReturner.proficiencyOptions.pop();
                         classReturner.proficiencies.pop();

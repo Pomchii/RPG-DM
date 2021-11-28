@@ -6,7 +6,6 @@ import { FindDndClass } from "./FindDndClass";
 export class FindDndClassController {
   constructor(
     private findDndClass: FindDndClass,
-    private findProficiencies: FindProficiencies,
     private findItemProficiencies: FindItemsProficiency
   ) { }
 
@@ -20,7 +19,7 @@ export class FindDndClassController {
         name: playableClass.name,
         hitDie: playableClass.hit_die,
         proficiencyOptions: [{}],
-        proficiencies: [{}]
+        proficiencies: [{}],
       }
 
       classReturner.proficiencyOptions.pop();

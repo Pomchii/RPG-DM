@@ -7,12 +7,10 @@ import { FindDndClassController } from "./FindDndClassController";
 const dndProvider = new DnDProvider();
 
 const findDndClass = new FindDndClass(dndProvider);
-const findProficiencies = new FindProficiencies(dndProvider);
 const findItemProficiencies = new FindItemsProficiency(dndProvider);
 
 const findDndClassController = new FindDndClassController(
   findDndClass,
-  findProficiencies,
   findItemProficiencies
 );
 
