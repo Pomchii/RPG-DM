@@ -94,16 +94,6 @@ var UserRepository = /** @class */ (function () {
             });
         });
     };
-    UserRepository.prototype.updateUser = function (user, userId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userRepository, updateUser;
-            return __generator(this, function (_a) {
-                userRepository = typeorm_1.getRepository(User_1.User);
-                updateUser = userRepository.update({ id: userId }, user);
-                return [2 /*return*/, updateUser];
-            });
-        });
-    };
     return UserRepository;
 }());
 exports.UserRepository = UserRepository;

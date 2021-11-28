@@ -4,7 +4,6 @@ import { findDndClassController } from "./useCases/FindDndClass";
 import { listDndClassesController } from "./useCases/ListDnDClasses";
 import { listUserController } from "./useCases/ListUser";
 import { loginUserController } from "./useCases/LoginUser";
-import { updateUserController } from "./useCases/UpdateUser";
 import { checkAuth } from "./middlewares/checkAuth";
 
 const router = Router();
@@ -16,10 +15,6 @@ router.post('/users/register', (request, response) => {
 
 router.post('/login', (request, response) => {
   return loginUserController.execute(request, response);
-});
-
-router.put('/users/:userId', checkAuth, (request, response) => {
-  return updateUserController.execute(request, response);
 });
 
 router.get('/users/:userId', (request, response) => {

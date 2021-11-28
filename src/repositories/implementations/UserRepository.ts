@@ -3,7 +3,6 @@ import { getRepository, Repository, UpdateResult } from "typeorm";
 import { ICreateUserDTO } from "../../useCases/CreateUser/CreateUserDTO";
 import { User } from "../../entities/User";
 import { IUserRepository } from "../IUserRepository";
-import { IUpdateUserDTO } from "../../useCases/UpdateUser/UpdateUserDTO";
 
 export class UserRepository implements IUserRepository {
   async findByUsername(username: string): Promise<User> {
@@ -32,10 +31,4 @@ export class UserRepository implements IUserRepository {
     }));
   }
 
-  async updateUser(user: IUpdateUserDTO, userId: number): Promise<UpdateResult> {
-    const userRepository = getRepository(User);
-    const updateUser = userRepository.update({ id: userId }, user);
-
-    return updateUser;
-  }
 }
