@@ -1,5 +1,4 @@
 # RPG-DM
-## A REST API builded to learn SOLID fundamentals 
 This API uses D&D 5th Edition API (http://www.dnd5eapi.co/docs/#intro) for not comercialized studying purpose.
 
 ## Usage
