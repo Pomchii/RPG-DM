@@ -38,24 +38,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUser = void 0;
 var UpdateUser = /** @class */ (function () {
-    function UpdateUser(userRepository) {
+    function UpdateUser(userRepository, hashData) {
         this.userRepository = userRepository;
+        this.hashData = hashData;
     }
-    UpdateUser.prototype.execute = function (data, userId) {
+    UpdateUser.prototype.execute = function (userId, updateUser) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, updatedUser;
+            var hashedPassword;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(data.userId)];
+                    case 0: return [4 /*yield*/, this.hashData.hashUserData(updateUser.password)];
                     case 1:
-                        user = _a.sent();
-                        if (!user) {
-                            throw new Error("User not found!");
-                        }
-                        return [4 /*yield*/, this.userRepository.updateUser(data, userId)];
+                        hashedPassword = _a.sent();
+                        return [4 /*yield*/, this.userRepository.updateUser(userId, {
+                                username: updateUser.username,
+                                password: hashedPassword
+                            })];
                     case 2:
-                        updatedUser = _a.sent();
-                        return [2 /*return*/, updatedUser];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });

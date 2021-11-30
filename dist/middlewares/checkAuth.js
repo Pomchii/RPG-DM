@@ -9,7 +9,8 @@ function checkAuth(request, response, next) {
     try {
         var jsonToken = request.headers.authorization;
         var decoded = jsonToken.split(" ")[1];
-        jsonwebtoken_1.default.verify(decoded, "#l^UgAvRh5w9yf^JSw!&tcMNx!gMNm%Y0Hrmcy62O4x08MS2cx");
+        var user = jsonwebtoken_1.default.verify(decoded, "#l^UgAvRh5w9yf^JSw!&tcMNx!gMNm%Y0Hrmcy62O4x08MS2cx");
+        request.user = user;
         next();
     }
     catch (error) {

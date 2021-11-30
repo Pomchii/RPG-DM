@@ -43,21 +43,22 @@ var UpdateUserController = /** @class */ (function () {
     }
     UpdateUserController.prototype.execute = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var userId, user, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var userRequestToken, _a, username, password, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        userId = parseInt(req.params.userId);
-                        console.log(userId);
-                        return [4 /*yield*/, this.updateUser.execute(req.body, userId)];
+                        _b.trys.push([0, 2, , 3]);
+                        userRequestToken = req.user;
+                        _a = req.body, username = _a.username, password = _a.password;
+                        return [4 /*yield*/, this.updateUser.execute(userRequestToken.userId, { username: username, password: password })];
                     case 1:
-                        user = _a.sent();
-                        console.log(user);
-                        return [2 /*return*/, res.status(200).json({})];
+                        _b.sent();
+                        return [2 /*return*/, res.status(200).send()];
                     case 2:
-                        error_1 = _a.sent();
-                        return [2 /*return*/, res.status(500).json({ message: error_1.message })];
+                        error_1 = _b.sent();
+                        return [2 /*return*/, res.status(500).json({
+                                message: error_1.message || error_1 || 'Unexpected Error'
+                            })];
                     case 3: return [2 /*return*/];
                 }
             });
