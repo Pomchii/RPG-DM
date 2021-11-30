@@ -44,19 +44,25 @@ var UpdateUser = /** @class */ (function () {
     }
     UpdateUser.prototype.execute = function (userId, updateUser) {
         return __awaiter(this, void 0, void 0, function () {
-            var hashedPassword;
+            var usernameAlreadyExists, hashedPassword;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.hashData.hashUserData(updateUser.password)];
+                    case 0: return [4 /*yield*/, this.userRepository.findByUsername(updateUser.username)];
                     case 1:
+                        usernameAlreadyExists = _a.sent();
+                        return [4 /*yield*/, this.hashData.hashUserData(updateUser.password)];
+                    case 2:
                         hashedPassword = _a.sent();
+                        if (!!usernameAlreadyExists) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.userRepository.updateUser(userId, {
                                 username: updateUser.username,
                                 password: hashedPassword
                             })];
-                    case 2:
+                    case 3:
                         _a.sent();
-                        return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 4: throw new Error("username already exists");
+                    case 5: return [2 /*return*/];
                 }
             });
         });

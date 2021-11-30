@@ -9,11 +9,16 @@ export class UpdateUser {
   ) { }
 
   async execute(userId: number, updateUser: IUpdateUserDTO) {
+    const usernameAlreadyExists = await this.userRepository.findByUsername(updateUser.username);
     const hashedPassword = await this.hashData.hashUserData(updateUser.password);
 
-    await this.userRepository.updateUser(userId, {
-      username: updateUser.username,
-      password: hashedPassword
-    });
+    if (!usernameAlreadyExists) {
+      await this.userRepository.updateUser(userId, {
+        username: updateUser.username,
+        password: hashedPassword
+      });
+    } else {
+      throw new Error("username already exists");
+    }
   }
 }
