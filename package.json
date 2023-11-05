@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "build": "tsc"
   },
   "author": "Guilherme Pereira da Silva",
   "license": "ISC",
